@@ -1,4 +1,4 @@
-import { readdir, writeFile, access } from 'node:fs/promises';
+import { access, readdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
 export interface GeneratorOptions {
@@ -21,15 +21,16 @@ export interface GeneratorOptions {
 const SKIP_DIRS = new Set(['node_modules']);
 
 function isExportableFile(name: string, includeTests: boolean): boolean {
-  if (!name.endsWith('.ts')) return false;
-  if (name === 'index.ts') return false;
-  if (name.endsWith('.d.ts')) return false;
-  if (!includeTests && (name.endsWith('.spec.ts') || name.endsWith('.test.ts'))) return false;
+  if (!(name.endsWith('.ts') || name.endsWith('.tsx'))) return false;
+  if (name === 'index.ts' || name === 'index.tsx') return false;
+  if (name.endsWith('.d.ts') || name.endsWith('.d.tsx')) return false;
+  if (!includeTests && (name.endsWith('.spec.ts') || name.endsWith('.test.ts') || name.endsWith('.spec.tsx') || name.endsWith('.test.tsx'))) return false;
   return true;
 }
 
 function stem(filename: string): string {
-  return filename.slice(0, -3);
+  const lastDot = filename.lastIndexOf('.');
+  return lastDot !== -1 ? filename.slice(0, lastDot) : filename;
 }
 
 function buildBarrelContent(fileStems: string[], dirNames: string[]): string {
