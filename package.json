@@ -1,0 +1,48 @@
+{
+  "name": "@mosherw/create-index",
+  "version": "1.0.0",
+  "description": "Generate index.ts barrel files for TypeScript projects",
+  "type": "module",
+  "engines": {
+    "node": ">=18.3.0"
+  },
+  "bin": {
+    "create-index": "./dist/cli.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "private": false,
+  "publisher": "mosherw",
+  "homepage": "https://github.com/MosheRW/create-index#readme",
+  "bugs": "https://github.com/MosheRW/create-index/issues",
+  "maintainers": [
+    "mosherw"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MosheRW/create-index.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "test": "npm run build && node --test dist/generator.test.js",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/node": "^18.0.0"
+  }
+}
